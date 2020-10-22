@@ -14,8 +14,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', "TMDB_API_KEY", '"f8027cc4fcfe894b4847f34ae22bd2e6"'
     }
 
     buildTypes {
@@ -66,6 +66,14 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$roomVersion"
     testImplementation "androidx.arch.core:core-testing:$archComponentVersion"
+
+    // network
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.google.code.gson:gson:$retrofitVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
 
     // logging
     implementation "com.jakewharton.timber:timber:$timberVersion"
