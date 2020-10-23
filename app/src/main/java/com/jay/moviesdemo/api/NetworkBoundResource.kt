@@ -10,7 +10,7 @@ import com.jay.moviesdemo.model.NetworkResponseModel
 import timber.log.Timber
 
 /**
- * NetworkBoundResource which use RxJava
+ * NetworkBoundResource which use LiveData
  * Checks if data exist in DB
  * 1)If not ,fetch from server & dump in DB & then return from DB as LiveData
  * 2)If present return as is LiveData¬

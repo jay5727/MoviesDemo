@@ -17,7 +17,7 @@ data class Movie(
 
     @ColumnInfo(name = "movie_id")
     @SerializedName("id")
-    var movieId: String? = null,
+    var movieId: Int? = null,
 
     @ColumnInfo(name = "original_title")
     @SerializedName("original_title")

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jay.moviesdemo.viewmodel.CastRowViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/cast_item_width"
+        android:layout_height="@dimen/cast_item_height"
+        android:layout_margin="@dimen/space_large">
+
+        <ImageView
+            android:id="@+id/image_cast"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_zero"
+            app:layout_constraintBottom_toTopOf="@+id/text_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadCircularImage="@{viewModel.item.profile_path}" />
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginEnd="@dimen/space_large"
+            android:gravity="center"
+            android:text="@{viewModel.item.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_cast"
+            tools:text="JAY" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

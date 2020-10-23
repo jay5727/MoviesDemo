@@ -15,6 +15,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "SMALL_IMAGE_URL", "\"https://image.tmdb.org/t/p/w200\"")
+        buildConfigField("String", "LARGE_IMAGE_URL", "\"https://image.tmdb.org/t/p/w500\"")
+        buildConfigField("String", "ORIGINAL_IMAGE_URL", "\"https://image.tmdb.org/t/p/original\"")
         buildConfigField 'String', "TMDB_API_KEY", '"f8027cc4fcfe894b4847f34ae22bd2e6"'
     }
 
@@ -102,4 +106,5 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin"
     implementation  "io.reactivex.rxjava2:rxandroid:$rxAndroid"
 
+    implementation "io.coil-kt:coil:0.9.5"
 }
