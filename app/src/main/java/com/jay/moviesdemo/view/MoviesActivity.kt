@@ -116,6 +116,7 @@ class MoviesActivity : DataBindingActivity(), ItemClickListener {
                 )
             }
             binding.adapter = adapter
+            adapter?.setOnItemClickListener(this)
         })
 
         viewModel.searchQuery.observe(this, androidx.lifecycle.Observer {
@@ -131,5 +132,10 @@ class MoviesActivity : DataBindingActivity(), ItemClickListener {
         movie?.let {
             startActivity(MovieDetailActivity.newIntent(this, movie))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adapter?.setOnItemClickListener(null)
     }
 }
