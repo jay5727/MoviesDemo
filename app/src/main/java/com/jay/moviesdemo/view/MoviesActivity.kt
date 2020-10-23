@@ -1,6 +1,8 @@
 package com.jay.moviesdemo.view
 
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.jay.moviesdemo.R
@@ -9,6 +11,7 @@ import com.jay.moviesdemo.api.ErrorHandling
 import com.jay.moviesdemo.api.Resource
 import com.jay.moviesdemo.base.DataBindingActivity
 import com.jay.moviesdemo.databinding.ActivityMoviesBinding
+import com.jay.moviesdemo.extension.hideKeyboard
 import com.jay.moviesdemo.listener.ItemClickListener
 import com.jay.moviesdemo.model.Movie
 import com.jay.moviesdemo.viewmodel.MoviesViewModel
@@ -27,15 +30,44 @@ class MoviesActivity : DataBindingActivity(), ItemClickListener {
             lifecycleOwner = this@MoviesActivity
             viewModel = viewModel
         }
+        setUpSearch()
         attachObserver()
         viewModel.postMoviePage(page = 1)
 
+    }
+
+
+    /**
+     * Sets up Search bar for movie search
+     */
+    private fun setUpSearch() {
+        binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard(textView, this)
+                viewModel.searchQuery.value = textView.text.toString()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        binding.btnClear.setOnClickListener {
+            binding.etSearch.setText("")
+            viewModel.searchQuery.value = ""
+        }
     }
 
     /**
      * Method to attach observer
      */
     private fun attachObserver() {
+        viewModel.showSearchBox.observe(this, androidx.lifecycle.Observer {
+            if (it) {
+                binding.searchBar.visibility = View.VISIBLE
+            } else {
+                binding.searchBar.visibility = View.GONE
+            }
+        })
+
         viewModel.moviesLiveData.observe(
             this,
             androidx.lifecycle.Observer { resource ->
@@ -45,6 +77,7 @@ class MoviesActivity : DataBindingActivity(), ItemClickListener {
                     }
                     Resource.Status.SUCCESS -> {
                         viewModel.shouldShowLoader.set(false)
+                        viewModel.showSearchBox.value = true
                         if (!resource.data.isNullOrEmpty()) {
                             adapter = MoviesAdapter(
                                 context = this,
@@ -70,6 +103,28 @@ class MoviesActivity : DataBindingActivity(), ItemClickListener {
                 }
             }
         )
+        viewModel.filteredMoviesLiveData.observe(this, androidx.lifecycle.Observer {
+            it?.let {
+                adapter = MoviesAdapter(
+                    context = this,
+                    moviesList = it.toMutableList() as ArrayList<Movie>
+                )
+            } ?: kotlin.run {
+                adapter = MoviesAdapter(
+                    context = this,
+                    moviesList = viewModel.moviesLiveData.value?.data?.toMutableList() as ArrayList<Movie>
+                )
+            }
+            binding.adapter = adapter
+        })
+
+        viewModel.searchQuery.observe(this, androidx.lifecycle.Observer {
+            if (!it.isNullOrEmpty()) {
+                viewModel.getFilteredMovies(it)
+            } else {
+                viewModel.setFilteredListEmpty()
+            }
+        })
     }
 
     override fun onItemClicked(movie: Movie?) {

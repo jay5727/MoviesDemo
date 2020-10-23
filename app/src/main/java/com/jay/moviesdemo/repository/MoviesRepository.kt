@@ -1,6 +1,7 @@
 package com.jay.moviesdemo.repository
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.jay.moviesdemo.api.ApiResponse
 import com.jay.moviesdemo.api.NetworkBoundResource
 import com.jay.moviesdemo.api.Resource
@@ -62,4 +63,7 @@ class MoviesRepository
         }.asLiveData()
     }
 
+    suspend fun getFilteredMovies( query: SupportSQLiteQuery) : List<Movie> {
+        return movieDao.getFilteredMovies(query)
+    }
 }

@@ -5,9 +5,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.jay.moviesdemo.model.Movie.Companion.TABLE_NAME
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "movies_table")
+@Entity(tableName = TABLE_NAME)
 @Parcelize
 data class Movie(
 
@@ -54,4 +55,9 @@ data class Movie(
     @ColumnInfo(name = "timestamp_in_millis")
     @SerializedName("timestamp_in_millis")
     var timestampInMillis: Long? = null
-) : Parcelable
+) : Parcelable {
+    companion object {
+        const val TABLE_NAME = "movies_table"
+        const val COLUMN_NAME = "original_title"
+    }
+}

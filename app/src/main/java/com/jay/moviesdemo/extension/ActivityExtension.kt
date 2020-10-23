@@ -1,6 +1,9 @@
 package com.jay.moviesdemo.extension
 
+import android.content.Context
 import android.os.Build
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -34,3 +37,12 @@ private fun AppCompatActivity.getStatusBarSize(): Int {
         resources.getDimensionPixelSize(idStatusBarHeight)
     } else 0
 }
+
+/**
+ * method to hide keyboard
+ */
+fun hideKeyboard(view: View, context: Context?) {
+    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+

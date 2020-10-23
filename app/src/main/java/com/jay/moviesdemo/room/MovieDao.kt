@@ -16,8 +16,8 @@ interface MovieDao {
     fun getMovies(): LiveData<List<Movie>>
 
     @RawQuery(observedEntities = [Movie::class])
-    fun getFilteredMovies(
+    suspend fun getFilteredMovies(
         query: SupportSQLiteQuery
-    ) : LiveData<List<Movie>>
+    ) : List<Movie>
 
 }
